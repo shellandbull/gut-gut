@@ -49,80 +49,114 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
+  /* Cyberpunk Palette - Neon Cyan */
+  --neon-cyan: oklch(0.75 0.25 195);
+  /* Cyberpunk Palette - Hot Pink/Magenta */
+  --neon-pink: oklch(0.65 0.35 330);
+  /* Cyberpunk Palette - Electric Yellow */
+  --neon-yellow: oklch(0.85 0.25 85);
+  /* Cyberpunk Palette - Deep Purple */
+  --neon-purple: oklch(0.55 0.3 300);
+  /* Cyberpunk Palette - Dark Background */
+  --cyber-dark: oklch(0.12 0.02 265);
+  --cyber-dark-elevated: oklch(0.18 0.03 265);
+
+  --background: var(--cyber-dark);
+  --foreground: var(--neon-cyan);
+  --card: var(--cyber-dark-elevated);
+  --card-foreground: var(--neon-cyan);
+  --popover: var(--cyber-dark-elevated);
+  --popover-foreground: var(--neon-cyan);
+  --primary: var(--neon-pink);
+  --primary-foreground: oklch(0.95 0.01 265);
+  --secondary: var(--neon-purple);
+  --secondary-foreground: oklch(0.95 0.01 265);
+  --muted: oklch(0.25 0.05 265);
+  --muted-foreground: oklch(0.6 0.15 195);
+  --accent: var(--neon-yellow);
+  --accent-foreground: var(--cyber-dark);
+  --destructive: oklch(0.6 0.3 25);
+  --border: oklch(0.3 0.15 195 / 40%);
+  --input: oklch(0.25 0.1 265 / 50%);
+  --ring: var(--neon-cyan);
+  --chart-1: var(--neon-cyan);
+  --chart-2: var(--neon-pink);
+  --chart-3: var(--neon-yellow);
+  --chart-4: var(--neon-purple);
+  --chart-5: oklch(0.7 0.3 160);
+  --sidebar: var(--cyber-dark-elevated);
+  --sidebar-foreground: var(--neon-cyan);
+  --sidebar-primary: var(--neon-pink);
+  --sidebar-primary-foreground: oklch(0.95 0.01 265);
+  --sidebar-accent: var(--neon-purple);
+  --sidebar-accent-foreground: oklch(0.95 0.01 265);
+  --sidebar-border: oklch(0.3 0.15 195 / 40%);
+  --sidebar-ring: var(--neon-cyan);
 }
 
 .dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 106.423);
-  --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
-  --popover: oklch(0.216 0.006 56.043);
-  --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.923 0.003 48.717);
-  --primary-foreground: oklch(0.216 0.006 56.043);
-  --secondary: oklch(0.268 0.007 34.298);
-  --secondary-foreground: oklch(0.985 0.001 106.423);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  --accent: oklch(0.268 0.007 34.298);
-  --accent-foreground: oklch(0.985 0.001 106.423);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
+  --background: var(--cyber-dark);
+  --foreground: var(--neon-cyan);
+  --card: var(--cyber-dark-elevated);
+  --card-foreground: var(--neon-cyan);
+  --popover: var(--cyber-dark-elevated);
+  --popover-foreground: var(--neon-cyan);
+  --primary: var(--neon-pink);
+  --primary-foreground: oklch(0.95 0.01 265);
+  --secondary: var(--neon-purple);
+  --secondary-foreground: oklch(0.95 0.01 265);
+  --muted: oklch(0.25 0.05 265);
+  --muted-foreground: oklch(0.6 0.15 195);
+  --accent: var(--neon-yellow);
+  --accent-foreground: var(--cyber-dark);
+  --destructive: oklch(0.6 0.3 25);
+  --border: oklch(0.3 0.15 195 / 40%);
+  --input: oklch(0.25 0.1 265 / 50%);
+  --ring: var(--neon-cyan);
+  --chart-1: var(--neon-cyan);
+  --chart-2: var(--neon-pink);
+  --chart-3: var(--neon-yellow);
+  --chart-4: var(--neon-purple);
+  --chart-5: oklch(0.7 0.3 160);
+  --sidebar: var(--cyber-dark-elevated);
+  --sidebar-foreground: var(--neon-cyan);
+  --sidebar-primary: var(--neon-pink);
+  --sidebar-primary-foreground: oklch(0.95 0.01 265);
+  --sidebar-accent: var(--neon-purple);
+  --sidebar-accent-foreground: oklch(0.95 0.01 265);
+  --sidebar-border: oklch(0.3 0.15 195 / 40%);
+  --sidebar-ring: var(--neon-cyan);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    @apply border-border outline-ring/50;
+    /* Modern rendering optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+
   body {
     @apply bg-background text-foreground;
-    @apply bg-background text-foreground;
+    /* Smooth scrolling and GPU acceleration */
+    scroll-behavior: smooth;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Hardware acceleration for transitions and animations */
+  *,
+  *::before,
+  *::after {
+    will-change: auto;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  /* Optimize repaints */
+  h1, h2, h3, h4, h5, h6 {
+    contain: layout style paint;
   }
 }
