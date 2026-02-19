@@ -1,7 +1,75 @@
+"use client";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { FolderSelection } from "@/components/folder-selection";
+import Script from "next/script";
+import { useState, useEffect, useRef } from "react";
+
+declare global {
+  interface Window {
+    pdfjsLib: any;
+  }
+}
+
 export default function Home() {
+  const [pdfjsLoaded, setPdfjsLoaded] = useState(false);
+  const [llmLoaded, setLlmLoaded] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState("Initializing...");
+  const workerRef = useRef<Worker | null>(null);
+
+  useEffect(() => {
+    // Initialize LLM worker on mount
+    if (!workerRef.current) {
+      workerRef.current = new Worker(new URL("../lib/llm-worker.ts", import.meta.url), {
+        type: "module",
+      });
+
+      workerRef.current.onmessage = (event) => {
+        const { type, data } = event.data;
+
+        if (type === "progress") {
+          setLoadingProgress(`Loading model: ${data.status || data.file || ""}...`);
+        } else if (type === "ready") {
+          setLlmLoaded(true);
+          setLoadingProgress("Model ready!");
+        }
+      };
+
+      // Trigger model load
+      workerRef.current.postMessage({ type: "init" });
+    }
+
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+      }
+    };
+  }, []);
+  const handlePDFPageRead = (data: {
+    filename: string;
+    page: number;
+    content: string;
+  }) => {
+    console.log(`File: ${data.filename}, Page: ${data.page}`);
+    console.log(`Content: ${data.content.substring(0, 100)}...`);
+  };
+
+  const isReady = pdfjsLoaded && llmLoaded;
+
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.12_0.02_265)] via-[oklch(0.15_0.03_280)] to-[oklch(0.10_0.02_250)]" />
+    <>
+      <Script
+        src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+        onLoad={() => {
+          if (window.pdfjsLib) {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+              "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js";
+            setPdfjsLoaded(true);
+          }
+        }}
+      />
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.12_0.02_265)] via-[oklch(0.15_0.03_280)] to-[oklch(0.10_0.02_250)]" />
 
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[oklch(0.75_0.25_195)] rounded-full blur-[120px] animate-pulse" />
@@ -9,37 +77,57 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[oklch(0.55_0.3_300)] rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
-      <main className="relative z-10 flex flex-col items-center gap-8 px-8">
-        <h1 className="text-8xl md:text-9xl font-black tracking-tighter text-center">
-          <span className="inline-block bg-gradient-to-r from-[oklch(0.75_0.25_195)] via-[oklch(0.65_0.35_330)] to-[oklch(0.85_0.25_85)] bg-clip-text text-transparent animate-[gradient_3s_ease-in-out_infinite] drop-shadow-[0_0_30px_oklch(0.75_0.25_195)]"
-            style={{
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Hello World
-          </span>
-        </h1>
+      <main className="relative z-10">
+        {!isReady ? (
+          /* Loading Screen */
+          <section className="flex min-h-screen items-center justify-center px-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-white">
+                Loading...
+              </h1>
+              <p className="text-lg md:text-xl text-white/80 leading-relaxed">
+                {loadingProgress}
+              </p>
+              <p className="text-sm text-white/60 mt-4">
+                {pdfjsLoaded ? "✓ PDF.js loaded" : "⏳ Loading PDF.js..."}
+              </p>
+              <p className="text-sm text-white/60">
+                {llmLoaded ? "✓ LLM loaded" : "⏳ Loading LLM model..."}
+              </p>
+            </div>
+          </section>
+        ) : (
+          <>
+            {/* First Section - Full Viewport */}
+            <section className="flex min-h-screen items-center justify-center px-8">
+              <div className="max-w-3xl mx-auto text-center">
+                <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-white">
+                  Buena Technical Test
+                </h1>
+                <p className="text-lg md:text-xl text-white/80 leading-relaxed">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </p>
+              </div>
+            </section>
 
-        <div className="flex gap-6 items-center justify-center flex-wrap">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-lg bg-[oklch(0.75_0.25_195)] shadow-[0_0_30px_oklch(0.75_0.25_195)] transition-all hover:scale-110" />
-            <span className="text-xs font-mono text-[oklch(0.75_0.25_195)]">Cyan</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-lg bg-[oklch(0.65_0.35_330)] shadow-[0_0_30px_oklch(0.65_0.35_330)] transition-all hover:scale-110" />
-            <span className="text-xs font-mono text-[oklch(0.65_0.35_330)]">Pink</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-lg bg-[oklch(0.85_0.25_85)] shadow-[0_0_30px_oklch(0.85_0.25_85)] transition-all hover:scale-110" />
-            <span className="text-xs font-mono text-[oklch(0.85_0.25_85)]">Yellow</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-lg bg-[oklch(0.55_0.3_300)] shadow-[0_0_30px_oklch(0.55_0.3_300)] transition-all hover:scale-110" />
-            <span className="text-xs font-mono text-[oklch(0.55_0.3_300)]">Purple</span>
-          </div>
-        </div>
+            {/* Second Section - Horizontal Split */}
+            <section className="min-h-screen px-8 py-16">
+              <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 h-full">
+                {/* Left Side - Folder Selection */}
+                <FolderSelection
+                  onPDFPageRead={handlePDFPageRead}
+                  llmWorker={workerRef.current}
+                />
+
+                {/* Right Side - Empty Card */}
+                <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <CardContent className="min-h-[400px]">
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+          </>
+        )}
       </main>
 
       <style jsx>{`
@@ -52,6 +140,7 @@ export default function Home() {
           }
         }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 }
