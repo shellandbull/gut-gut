@@ -6,32 +6,9 @@ This is a small exploration into `next.js` and the use of AI client side.
 
 I built an app that can gain access to a directory in your file system and programmatically parse PDFs inside of it for the purposes of extracting structured data from them. It specifically looks for real state data
 
-```mermaid
-flowchart TD
-    A[Web App Launches] --> B[Download LLM from HuggingFace]
-    B --> C{Model cached?}
-    C -->|No| D[Download & cache in IndexedDB]
-    C -->|Yes| E[Load from cache]
-    D --> F[Model ready]
-    E --> F
-
-    F --> G[User selects directory via showDirectoryPicker]
-    G --> H[Iterate through PDF files in directory]
-
-    H --> I[PDF.js extracts text per page]
-    I --> J[Build array of objects\n filename, page, content]
-
-    J --> K[Send each entry to local LLM]
-    K --> L[LLM extracts structured JSON\nfrom unstructured text]
-    L --> M{More files/pages?}
-    M -->|Yes| K
-    M -->|No| N[Merge all extracted data]
-
-    N --> O[Save structured data\npartial or complete]
-    O --> P[Display GUI for user review]
-    P --> Q[User fills in missing fields]
-    Q --> R[Save final complete dataset]
-```
+<p align="center">
+  <img width="377" height="1107" alt="image" src="https://github.com/user-attachments/assets/5378a50e-da9e-4a33-bc2d-318fe7361df2" />
+</p>
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
