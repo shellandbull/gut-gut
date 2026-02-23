@@ -18,7 +18,6 @@ export default function Home() {
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
-    // Initialize LLM worker on mount
     if (!workerRef.current) {
       workerRef.current = new Worker(new URL("../lib/llm-worker.ts", import.meta.url), {
         type: "module",
@@ -35,7 +34,6 @@ export default function Home() {
         }
       };
 
-      // Trigger model load
       workerRef.current.postMessage({ type: "init" });
     }
 
@@ -102,24 +100,25 @@ export default function Home() {
             <section className="flex min-h-screen items-center justify-center px-8">
               <div className="max-w-3xl mx-auto text-center">
                 <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-white">
-                  Buena Technical Test
+                  🏡 gut-gut 🏡
                 </h1>
                 <p className="text-lg md:text-xl text-white/80 leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                </p>
+                  Hello stranger,
+                  Give this application access to one directory in your computer
+                  that's filled with Teilungserklärung PDFs and we will extract
+                  information like management type, property name, etc, etc into
+                  structured data.
+               </p>
               </div>
             </section>
 
-            {/* Second Section - Horizontal Split */}
             <section className="min-h-screen px-8 py-16">
               <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 h-full">
-                {/* Left Side - Folder Selection */}
                 <FolderSelection
                   onPDFPageRead={handlePDFPageRead}
                   llmWorker={workerRef.current}
                 />
 
-                {/* Right Side - Empty Card */}
                 <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                   <CardContent className="min-h-[400px]">
                   </CardContent>
