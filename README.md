@@ -12,6 +12,16 @@ I built an app that can gain access to a directory in your file system and progr
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Bugs 🐛
+
+The app is currently not working because I haven't found an LLM that can:
+
+- Run client-side
+- Parse text into structured output within a reasonable timeframe
+- Be fast to download, or be rapidly available
+
+If I were to get past this, I would be able to gain access to one of the directories in your file system, extract text page by page and document by document, then systematically save a batch of partial records that an admin can later fill out manually if needed. The base prompt for text extraction is specialised for a German Teilungserklärung, but this can be turned into a parameter too
+
 ## Getting Started
 
 First, run the development server:
